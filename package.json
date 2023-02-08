@@ -1,0 +1,25 @@
+{
+  "name": "bot_wpp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@open-wa/wa-automate": "^4.37.2",
+    "axios-cookiejar-support": "^4.0.6",
+    "cheerio": "^1.0.0-rc.12",
+    "convertapi": "^1.11.1",
+    "dotenv": "^16.0.3",
+    "ffmpeg-static": "^5.1.0",
+    "firebase": "^8.10.1",
+    "highcharts": "github:highcharts/highcharts-dist#nightly",
+    "puppeteer": "^13.5.1",
+    "tough-cookie": "^4.1.2",
+    "ytdl-core": "^4.11.2"
+  }
+}
