@@ -15,8 +15,6 @@ module.exports = class SUAPModule {
         this.launch = await puppeteer.launch({
             executablePath: 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
         });
-
-        this.startChecker();
     }
 
     async login(user, password) {
@@ -28,16 +26,42 @@ module.exports = class SUAPModule {
                 }
             });
 
-            instance.post('/autenticacao/token/?format=json', {
-                username: user,
-                password: password
-            }).then(res => {
-                resolve(res.data);
-            }, (err) => {
-                resolve(false);
-            })
+            instance.post(
+                '/autenticacao/token/?format=json',
+                {
+                    username: user.toLowerCase(),
+                    password: password
+                }).then(res => {
+                    resolve(res.data);
+                }, (err) => {
+                    resolve(false);
+                })
         })
     };
+
+    async refreshToken(refresh) {
+
+        return new Promise(resolve => {
+            const instance = axios.create({
+                baseURL: 'https://suap.ifbaiano.edu.br/api/v2',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            instance.post(
+                '/autenticacao/token/refresh/',
+                {
+                    refresh
+                }).then(res => {
+                    console.log(res.data.refresh)
+                    resolve(res.data);
+                }, (err) => {
+                    console.log(err)
+                    resolve(false);
+                })
+        })
+    }
 
     async meusDados(token) {
         return new Promise(resolve => {
@@ -55,7 +79,7 @@ module.exports = class SUAPModule {
         })
     }
 
-    async minhasNotas(token) {
+    async getBoletim(token) {
         return new Promise(resolve => {
             const instance = axios.create({
                 baseURL: 'https://suap.ifbaiano.edu.br/api/v2',
@@ -66,6 +90,38 @@ module.exports = class SUAPModule {
             });
 
             instance.get("/minhas-informacoes/boletim/2022/1/").then(e => {
+                resolve(e.data)
+            }, (err) => resolve(false))
+        })
+    }
+
+    async minhasTurmas(token) {
+        return new Promise(resolve => {
+            const instance = axios.create({
+                baseURL: 'https://suap.ifbaiano.edu.br/api/v2',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            instance.get("/minhas-informacoes/turmas-virtuais/2022/1/").then(e => {
+                resolve(e.data)
+            }, (err) => resolve(false))
+        })
+    }
+
+    async getTurma(token, id) {
+        return new Promise(resolve => {
+            const instance = axios.create({
+                baseURL: 'https://suap.ifbaiano.edu.br/api/v2',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            instance.get(`/minhas-informacoes/turma-virtual/${id}`).then(e => {
                 resolve(e.data)
             }, (err) => resolve(false))
         })
@@ -85,77 +141,17 @@ module.exports = class SUAPModule {
 
             await initialPage.click("#login > form > div.submit-row > input");
 
-            setTimeout(async () => {
-                await initialPage.goto(`https://suap.ifbaiano.edu.br/edu/aluno/${user}/?tab=boletim`, { waitUntil: 'networkidle2', timeout: 0 });
+            await initialPage.waitForSelector("body > div > a.toggleSidebar");
 
-                const grafic = await initialPage.$("#graficoBoletim");
+            await initialPage.goto(`https://suap.ifbaiano.edu.br/edu/aluno/${user.toUpperCase()}/?tab=boletim`, { waitUntil: 'networkidle2', timeout: 0 });
 
-                const shot = await grafic.screenshot({ type: 'jpeg' });
+            const grafic = await initialPage.$("#graficoBoletim");
 
-                initialPage.close();
+            const shot = await grafic.screenshot({ type: 'jpeg', encoding: 'base64', quality: 50 });
 
-                resolve(shot)
-            }, 1000)
+            await initialPage.close();
+
+            resolve(shot)
         })
     };
-
-    async startChecker() {
-
-        const notasCache = new Map();
-
-        const func = async () => {
-            const users = await this.client.database.ref('SUAP').once('value').then(res => res.val() || {});
-
-            for (const user of Object.values(users)) {
-
-                console.log(`Checkando notas de ${user.chatId}`);
-
-                let notas = await this.minhasNotas(user.token);
-
-                if (!notas) {
-                    const login = await this.login(user.user, user.password);
-
-                    if (!login) {
-                        this.client.whatsapp.sendText(user.chatId, "Não foi possível obter suas notas. Logue-se novamente com o comando *!suap login*.");
-
-                        this.client.database.ref(`SUAP/${user.chatId.replace(/[^0-9]/g, '')}`).remove();
-
-                        continue;
-                    };
-
-                    user.token = login.access;
-
-                    this.client.database.ref(`SUAP/${user.chatId.replace(/[^0-9]/g, '')}`).update({
-                        token: login.access
-                    });
-
-                    notas = await this.minhasNotas(login.access);
-
-                    if (!notas) {
-                        this.client.whatsapp.sendText(user.chatId, "Não foi possível obter suas notas. Logue-se novamente com o comando *!suap login*.");
-
-                        this.client.database.ref(`SUAP/${user.chatId.replace(/[^0-9]/g, '')}`).remove();
-
-                        continue;
-                    }
-                };
-
-                const last = notasCache.get(user.chatId);
-
-                if (last) {
-                    last.forEach(nota => {
-
-                        if (nota.nota_etapa_1.nota != notas.find(n => n.disciplina == nota.disciplina).nota_etapa_1.nota)
-                            this.client.whatsapp.sendText(user.chatId, `⚠️ ALERTA DE BOLETIM ⚠️\n\nA nota da disciplina *${nota.disciplina}* foi alterada de *${nota.nota_etapa_1.nota || 0}* para *${notas.find(n => n.disciplina == nota.disciplina).nota_etapa_1.nota || 0}*.`)
-                    });
-                } else notasCache.set(user.chatId, notas)
-            }
-        };
-
-        func();
-
-        setInterval(() => {
-            func();
-        }, 60000);
-    }
 }

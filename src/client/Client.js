@@ -110,5 +110,5 @@ module.exports = class Client {
 
         this.database = firebase.database();
         return this.log(`[FIREBASE] - Firebase conectado com sucesso.`, { tags: ['Banco de dados'], color: 'green' })
-    }
+    };
 }
