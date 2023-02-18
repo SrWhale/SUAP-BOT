@@ -1,0 +1,16 @@
+.fancybox-stage .holder {
+    display: inline-block;
+}
+
+.fancybox-content {
+    background: #fff;
+    display: inline-block;
+    margin: 0;
+    max-width: 95%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0;
+    position: relative;
+    text-align: left;
+    vertical-align: middle;
+}

